@@ -1,7 +1,9 @@
 import requests
 from requests.sessions import Session
 
-from bst.utils import API
+from bst.utils import API, format_tag
+
+from bst.models import Battlelog, Player
 
 
 class Client:
@@ -13,9 +15,17 @@ class Client:
             'Authorization': f'Bearer {token}',
         }
 
-    def _request(self, url):
+    def _request(self, route):
         with self.session as session:
-            return session.get(url, headers=self.headers)
+            return session.get(API.base + route, headers=self.headers)
 
-    def get_player(self, player_tag):
-        return self._request(f"{API.base}{API.players}/{player_tag}").json()
+    def get_player(self, player_tag) -> Player:
+        player_tag = format_tag(player_tag)
+        json_resp = self._request(f"{API.players}/{player_tag}").json()
+        return Player.parse_obj(json_resp)
+
+    def get_player_battlelog(self, player_tag) -> Battlelog:
+        player_tag = format_tag(player_tag)
+        json_resp = self._request(
+            f"{API.players}/{player_tag}/battlelog").json()
+        return Battlelog.parse_obj(json_resp["items"])
