@@ -113,3 +113,13 @@ class Club(ClubBase):
     club_type: str = Field(..., alias="type")
     badge_id: int = Field(..., alias="badgeId")
     members: List[ClubMember]
+
+
+class MemberList(BaseModel):
+    __root__: List[ClubMember]
+
+    def __iter__(self):
+        return iter(self.__root__)
+
+    def __getitem__(self, item) -> ClubMember:
+        return self.__root__[item]

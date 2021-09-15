@@ -3,7 +3,7 @@ from requests.sessions import Session
 
 from bst.utils import API, format_tag
 
-from bst.models import Battlelog, Player, Club
+from bst.models import Battlelog, Player, Club, MemberList
 
 
 class Client:
@@ -34,3 +34,8 @@ class Client:
         club_tag = format_tag(club_tag)
         json_resp = self._request(f"{API.club}/{club_tag}").json()
         return Club.parse_obj(json_resp)
+
+    def get_club_members(self, club_tag):
+        club_tag = format_tag(club_tag)
+        json_resp = self._request(f"{API.club}/{club_tag}/members").json()
+        return MemberList.parse_obj(json_resp["items"])
