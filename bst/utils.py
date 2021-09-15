@@ -1,6 +1,7 @@
 class API:
-    base: str = "https://api.brawlstars.com/v1"
-    players: str = "/players"
+    base = "https://api.brawlstars.com/v1"
+    players = "/players"
+    club = "/clubs"
 
 
 def format_tag(tag: str) -> str:

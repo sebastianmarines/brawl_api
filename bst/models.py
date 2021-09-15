@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from datetime import date
 
 
-class Club(BaseModel):
+class ClubBase(BaseModel):
     tag: Optional[str]
     name: Optional[str]
 
@@ -45,7 +45,7 @@ class PlayerBase(BaseModel):
 
 
 class Player(PlayerBase):
-    club: Optional[Club] = None
+    club: Optional[ClubBase] = None
     is_qualified_from_championship_challenge: Optional[bool] = Field(
         None, alias='isQualifiedFromChampionshipChallenge')
     field_3vs3_victories: Optional[int] = Field(None, alias='3vs3Victories')
@@ -97,3 +97,19 @@ class Battlelog(BaseModel):
 
     def __getitem__(self, item) -> Battle:
         return self.__root__[item]
+
+
+class ClubMember(PlayerBase):
+    trophies: int
+    role: str
+    name_color: str = Field(..., alias="nameColor")
+    icon: Icon
+
+
+class Club(ClubBase):
+    description: str
+    trophies: int
+    required_trophies: int = Field(..., alias="requiredTrophies")
+    club_type: str = Field(..., alias="type")
+    badge_id: int = Field(..., alias="badgeId")
+    members: List[ClubMember]
