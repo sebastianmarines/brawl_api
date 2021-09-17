@@ -1,7 +1,11 @@
 [tool.poetry]
 name = "brawl_api"
 version = "0.0.1-alpha"
-description = ""
+description = "Python wrapper for the Brawl Stars API"
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/sebastianmarines/brawl_api"
+repository = "https://github.com/sebastianmarines/brawl_api"
 authors = ["Sebastian Marines <sebastian0marines@gmail.com>"]
 
 [tool.poetry.dependencies]
