@@ -1,9 +1,9 @@
 import requests
 from requests.sessions import Session
 
-from bst.utils import API, format_tag
+from brawl_api.utils import API, format_tag
 
-from bst.models import Battlelog, Player, Club, MemberList
+from brawl_api.models import Battlelog, Player, Club, MemberList
 
 
 class Client:

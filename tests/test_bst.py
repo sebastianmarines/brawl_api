@@ -1,4 +1,4 @@
-from bst import __version__
+from brawl_api import __version__
 
 
 def test_version():

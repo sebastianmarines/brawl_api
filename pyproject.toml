@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bst"
+name = "brawl_api"
 version = "0.0.1-alpha"
 description = ""
 authors = ["Sebastian Marines <sebastian0marines@gmail.com>"]
