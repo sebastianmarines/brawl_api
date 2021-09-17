@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "brawl_api"
-version = "0.0.1-alpha1"
+version = "0.0.1-alpha2"
 description = "Python wrapper for the Brawl Stars API"
 license = "MIT"
 readme = "README.md"
