@@ -30,12 +30,12 @@ class Client:
             f"{API.players}/{player_tag}/battlelog").json()
         return Battlelog.parse_obj(json_resp["items"])
 
-    def get_club(self, club_tag):
+    def get_club(self, club_tag) -> Club:
         club_tag = format_tag(club_tag)
         json_resp = self._request(f"{API.club}/{club_tag}").json()
         return Club.parse_obj(json_resp)
 
-    def get_club_members(self, club_tag):
+    def get_club_members(self, club_tag) -> MemberList:
         club_tag = format_tag(club_tag)
         json_resp = self._request(f"{API.club}/{club_tag}/members").json()
         return MemberList.parse_obj(json_resp["items"])
