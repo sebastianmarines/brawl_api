@@ -104,6 +104,10 @@ class Battlelog(BaseModel):
     def __getitem__(self, item) -> Battle:
         return self.__root__[item]
 
+    @validator("__root__", pre=True)
+    def get_items(cls, v: dict):
+        return v.get("items")
+
 
 class ClubMember(PlayerBase):
     trophies: int
@@ -129,3 +133,7 @@ class MemberList(BaseModel):
 
     def __getitem__(self, item) -> ClubMember:
         return self.__root__[item]
+
+    @validator("__root__", pre=True)
+    def get_items(cls, v: dict):
+        return v.get("items")
