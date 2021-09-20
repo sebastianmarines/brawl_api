@@ -18,7 +18,7 @@ class Client:
             'Authorization': f'Bearer {token}',
         }
 
-    def _request(self, route):
+    def _request(self, route: str):
         with self.session as session:
             return session.get(API.base + route, headers=self.headers)
 
@@ -35,7 +35,7 @@ class Client:
         json_resp = self._request(f"{API.players}/{player_tag}").json()
         return Player.parse_obj(json_resp)
 
-    def get_player_battlelog(self, player_tag) -> Battlelog:
+    def get_player_battlelog(self, player_tag: str) -> Battlelog:
         """Get player's battlelog
 
         Args:
@@ -49,7 +49,7 @@ class Client:
             f"{API.players}/{player_tag}/battlelog").json()
         return Battlelog.parse_obj(json_resp["items"])
 
-    def get_club(self, club_tag) -> Club:
+    def get_club(self, club_tag: str) -> Club:
         """Get club information
 
         Args:
@@ -62,7 +62,7 @@ class Client:
         json_resp = self._request(f"{API.club}/{club_tag}").json()
         return Club.parse_obj(json_resp)
 
-    def get_club_members(self, club_tag) -> MemberList:
+    def get_club_members(self, club_tag: str) -> MemberList:
         """Get club members
 
         Args:
@@ -85,13 +85,13 @@ class AsyncClient:
             'Authorization': f'Bearer {token}',
         }
 
-    async def _request(self, route):
+    async def _request(self, route: str):
         async with self.session as session:
             async with session.get(API.base + route,
                                    headers=self.headers) as response:
                 return await response.json()
 
-    async def get_player(self, player_tag) -> Player:
+    async def get_player(self, player_tag: str) -> Player:
         """Get player
 
         Args:
@@ -104,7 +104,7 @@ class AsyncClient:
         json_resp = await self._request(f"{API.players}/{player_tag}")
         return Player.parse_obj(json_resp)
 
-    async def get_player_battlelog(self, player_tag) -> Battlelog:
+    async def get_player_battlelog(self, player_tag: str) -> Battlelog:
         """Get player's battlelog
 
         Args:
@@ -118,7 +118,7 @@ class AsyncClient:
                                         )
         return Battlelog.parse_obj(json_resp["items"])
 
-    async def get_club(self, club_tag) -> Club:
+    async def get_club(self, club_tag: str) -> Club:
         """Get club information
 
         Args:
@@ -131,7 +131,7 @@ class AsyncClient:
         json_resp = await self._request(f"{API.club}/{club_tag}")
         return Club.parse_obj(json_resp)
 
-    async def get_club_members(self, club_tag) -> MemberList:
+    async def get_club_members(self, club_tag: str) -> MemberList:
         """Get club members
 
         Args:
