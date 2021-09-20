@@ -1,27 +1,29 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Iterator, List, Optional
+from datetime import datetime
+from typing import List, Optional
 
-from pydantic import BaseModel, Field
-from datetime import date
+from pydantic import BaseModel, Field, validator
+
+from brawl_api.utils import format_date
 
 
 class ClubBase(BaseModel):
-    tag: Optional[str]
-    name: Optional[str]
+    tag: str
+    name: str
 
 
 class Icon(BaseModel):
-    id: Optional[int]
+    id: int
 
 
 class Gadget(BaseModel):
-    name: Optional[str]
+    name: str
     id: int
 
 
 class StarPower(BaseModel):
-    name: Optional[str]
+    name: str
     id: int
 
 
@@ -40,31 +42,31 @@ class Brawler(BrawlerBase):
 
 
 class PlayerBase(BaseModel):
-    tag: Optional[str] = None
-    name: Optional[str] = None
+    tag: str
+    name: str
 
 
 class Player(PlayerBase):
     club: Optional[ClubBase] = None
-    is_qualified_from_championship_challenge: Optional[bool] = Field(
-        None, alias='isQualifiedFromChampionshipChallenge')
-    field_3vs3_victories: Optional[int] = Field(None, alias='3vs3Victories')
-    icon: Optional[Icon] = None
-    trophies: Optional[int] = None
-    exp_level: Optional[int] = Field(None, alias='expLevel')
-    exp_points: Optional[int] = Field(None, alias='expPoints')
-    highest_trophies: Optional[int] = Field(None, alias='highestTrophies')
+    is_qualified_from_championship_challenge: bool = Field(
+        alias='isQualifiedFromChampionshipChallenge')
+    field_3vs3_victories: int = Field(alias='3vs3Victories')
+    icon: Icon
+    trophies: int
+    exp_level: int = Field(alias='expLevel')
+    exp_points: int = Field(alias='expPoints')
+    highest_trophies: int = Field(alias='highestTrophies')
     power_play_points: Optional[int] = Field(None, alias='powerPlayPoints')
     highest_power_play_points: Optional[int] = Field(
         None, alias='highestPowerPlayPoints')
-    solo_victories: Optional[int] = Field(None, alias='soloVictories')
-    duo_victories: Optional[int] = Field(None, alias='duoVictories')
+    solo_victories: int = Field(alias='soloVictories')
+    duo_victories: int = Field(alias='duoVictories')
     best_robo_rumble_time: Optional[int] = Field(None,
                                                  alias='bestRoboRumbleTime')
     best_time_as_big_brawler: Optional[int] = Field(
         None, alias='bestTimeAsBigBrawler')
-    brawlers: Optional[List[Brawler]] = None
-    name_color: Optional[str] = Field(None, alias='nameColor')
+    brawlers: List[Brawler]
+    name_color: str = Field(alias='nameColor')
 
 
 class Event(BaseModel):
@@ -78,15 +80,19 @@ class EventPlayer(PlayerBase):
 
 
 class BattleResult(BaseModel):
-    mode: Optional[str]
-    type: Optional[str]
+    mode: str
+    type: str
     teams: List[List[EventPlayer]]
 
 
 class Battle(BaseModel):
     battle: BattleResult
-    battle_time: Optional[str] = Field(..., alias='battleTime')
+    battle_time: datetime = Field(..., alias='battleTime')
     event: Event
+
+    @validator("battle_time", pre=True)
+    def format_battle_time(cls, v):
+        return format_date(v)
 
 
 class Battlelog(BaseModel):

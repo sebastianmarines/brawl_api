@@ -18,9 +18,9 @@ class Client:
             'Authorization': f'Bearer {token}',
         }
 
-    def _request(self, route: str):
+    def _request(self, route: str) -> dict:
         with self.session as session:
-            return session.get(API.base + route, headers=self.headers)
+            return session.get(API.base + route, headers=self.headers).json()
 
     def get_player(self, player_tag) -> Player:
         """Get player
@@ -32,7 +32,7 @@ class Client:
             Player: A Player object
         """
         player_tag = format_tag(player_tag)
-        json_resp = self._request(f"{API.players}/{player_tag}").json()
+        json_resp = self._request(f"{API.players}/{player_tag}")
         return Player.parse_obj(json_resp)
 
     def get_player_battlelog(self, player_tag: str) -> Battlelog:
@@ -45,8 +45,7 @@ class Client:
             Battlelog: A Battlelog object
         """
         player_tag = format_tag(player_tag)
-        json_resp = self._request(
-            f"{API.players}/{player_tag}/battlelog").json()
+        json_resp = self._request(f"{API.players}/{player_tag}/battlelog")
         return Battlelog.parse_obj(json_resp["items"])
 
     def get_club(self, club_tag: str) -> Club:
@@ -59,7 +58,7 @@ class Client:
             Club: A Club object
         """
         club_tag = format_tag(club_tag)
-        json_resp = self._request(f"{API.club}/{club_tag}").json()
+        json_resp = self._request(f"{API.club}/{club_tag}")
         return Club.parse_obj(json_resp)
 
     def get_club_members(self, club_tag: str) -> MemberList:
@@ -72,7 +71,7 @@ class Client:
             MemberList: A MemberList object
         """
         club_tag = format_tag(club_tag)
-        json_resp = self._request(f"{API.club}/{club_tag}/members").json()
+        json_resp = self._request(f"{API.club}/{club_tag}/members")
         return MemberList.parse_obj(json_resp["items"])
 
 
