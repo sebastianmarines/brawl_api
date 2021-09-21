@@ -108,11 +108,10 @@ class AsyncClient(ClientBase):
         }
 
     async def _request(self, route: str):
-        async with self.session as session:
-            async with session.get(API.base + route,
-                                   headers=self.headers) as response:
-                response = self._check_request_error(response)
-                return await response.json()
+        async with self.session.get(API.base + route,
+                                    headers=self.headers) as response:
+            response = self._check_request_error(response)
+            return await response.json()
 
     async def _get_x(self, model: Type[T], url: str) -> T:
         resp = await self._request(url)
