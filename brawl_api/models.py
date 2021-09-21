@@ -66,7 +66,7 @@ class Player(PlayerBase):
     best_time_as_big_brawler: Optional[int] = Field(
         None, alias='bestTimeAsBigBrawler')
     brawlers: List[Brawler]
-    name_color: str = Field(alias='nameColor')
+    name_color: Optional[str] = Field(None, alias='nameColor')
 
 
 class Event(BaseModel):
