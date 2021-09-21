@@ -110,7 +110,10 @@ class Battlelog(BaseModel):
 
     @validator("__root__", pre=True)
     def get_items(cls, v: dict):
-        return v.get("items")
+        if (items := v.get("items")):
+            return items
+        else:
+            return []
 
 
 class ClubMember(PlayerBase):
