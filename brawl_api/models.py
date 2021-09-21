@@ -87,6 +87,9 @@ class BattleResult(BaseModel):
     mode: str
     type: str
     teams: List[List[EventPlayer]]
+    result: str
+    duration: int
+    star_player: Optional[EventPlayer] = Field(alias="starPlayer")
 
 
 class Battle(BaseModel):
