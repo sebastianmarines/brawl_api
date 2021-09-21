@@ -47,7 +47,7 @@ class PlayerBase(BaseModel):
 
 
 class Player(PlayerBase):
-    club: Optional[ClubBase] = None
+    club: Optional[ClubBase] = Field(None)
     is_qualified_from_championship_challenge: bool = Field(
         alias='isQualifiedFromChampionshipChallenge')
     field_3vs3_victories: int = Field(alias='3vs3Victories')
@@ -67,6 +67,10 @@ class Player(PlayerBase):
         None, alias='bestTimeAsBigBrawler')
     brawlers: List[Brawler]
     name_color: Optional[str] = Field(None, alias='nameColor')
+
+    @validator("club", pre=True)
+    def ignore_empty_club(cls, v):
+        return v if v else None
 
 
 class Event(BaseModel):
